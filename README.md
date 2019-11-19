@@ -2,7 +2,8 @@
 To Run
 "mvn clean install"
 
-Main.main() - runs with a single default input parameter
+Main.main() - runs with a single default input parameter.
+
 TransactionServiceTest - contains tests that run with a few different parameters
 
 Approach:
