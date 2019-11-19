@@ -64,5 +64,14 @@ public class TransactionServiceTest {
 
         Assert.assertEquals(new Double(-15.5), relativeBalance);
     }
+    
+    @Test
+    public void testcalculateRelativeBalanceWithInvalidAccountNumbers() throws InvalidInputException {
+        String accountId = "ACC99887712233";
+
+        Double relativeBalance = service.calculateRelativeBalance(accountId, null, null);
+
+        Assert.assertEquals(new Double(0), relativeBalance);
+    }
 
 }
