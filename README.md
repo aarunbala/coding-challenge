@@ -14,6 +14,6 @@ TransactionServiceTest - contains tests that run with a few different sets of pa
 3. Based on the inputs passed, filter transactions and calculate the relative balance
 
 ## Assumptions
-1. If only REVERSAL transactions are available for the provided timeframe, then they are considered for Balance calculation.
+1. If REVERSAL transactions are available for the provided timeframe, then they are considered for Balance calculation.
 2. SysOut is used temporarily instead of loggers.
 3. Test classes are created only for testing the functionality. Not created for the Util/support classes.
