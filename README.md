@@ -1,7 +1,6 @@
 # Coding-challenge
 Requirement is to calculate the relative balance for an account within the specified time frame.
 
-com.challenge.coding.BalanceCalculator - Initializes the application with the sample data & calls the service class.
 com.challenge.coding.TransactionService - Service Implementation class that provides the Business logic.
 
 ## To Run the application
