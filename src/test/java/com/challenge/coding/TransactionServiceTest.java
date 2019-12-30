@@ -52,7 +52,7 @@ public class TransactionServiceTest {
         String fromDateTime = "20/10/2018 17:00:00";
         String toDateTime = "20/10/2018 18:00:01";
 
-        DoubleSummaryStatistics relativeBalance = service.calculateRelativeBalance(accountId, TransactionUtils.convertDateTime(fromDateTime), TransactionUtils.convertDateTime(toDateTime));
+        DoubleSummaryStatistics relativeBalance = service.calculateRelativeBalance(accountId, fromDateTime, toDateTime);
 
         Assert.assertEquals(1, relativeBalance.getCount());
         Assert.assertEquals(-5.0, relativeBalance.getSum(), 0);
