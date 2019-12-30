@@ -9,8 +9,7 @@ mvn clean install
 ```
 OR
 ```bash
-mvn clean install
-java -jar target/transaction-service.jar
+java -jar target/transaction-service.jar (provided mvn clean install is run  atleast once)
 ```
 
 ## To Run tests
