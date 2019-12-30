@@ -4,7 +4,7 @@ To Run
 mvn clean install
 ```
 
-Main.main() - runs with a single set of input parameters as described in the challenge document.
+Main.balanceCalculator() - runs with a single set of input parameters as described in the challenge document.
 
 TransactionServiceTest - contains tests that run with a few different sets of parameters.
 

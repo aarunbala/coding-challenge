@@ -1,80 +1,31 @@
 package com.challenge.coding.util;
 
-import com.challenge.coding.exception.InvalidCSVFileException;
 import com.challenge.coding.model.Transaction;
-import com.challenge.coding.model.TransactionType;
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionUtils {
 
-    private static final String CSV_SPLITTER = ",";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    /**
-     * Method reads the csv at the provided path and converts them into a List<Transaction> objects.
-     *
-     * @param path                   - Path cannot be null as stated in Assumptions, otherwise null checks need to be added.
-     * @param reversedTransactionIds - passing the reference to reversed transaction Ids, so as to populate it.
-     * @return List of transactions read from the CSV
-     * @throws IOException
-     */
-    public static List<Transaction> readCSV(String path, List<String> reversedTransactionIds) throws IOException {
-        List<Transaction> transactions = new ArrayList<>();
-        String row;
+    public static List<Transaction> readCSV(URL path) {
 
-        String filePath = new File("").getAbsolutePath();
-        System.out.println(filePath + path);
-        BufferedReader csvReader = new BufferedReader(new FileReader(filePath + path));
-        while ((row = csvReader.readLine()) != null) {
-            String[] transData = row.split(CSV_SPLITTER);
+        CsvMapper mapper = new CsvMapper();
 
-            Transaction transaction = convertToTransaction(transData, reversedTransactionIds);
-            if (transaction != null) {
-                transactions.add(transaction);
-            }
+        try {
+            MappingIterator<Transaction> iterator = mapper.registerModule(new JavaTimeModule()).readerFor(Transaction.class).with(CsvSchema.emptySchema().withHeader()).readValues(path);
+            return iterator.readAll();
+        } catch (IOException e) {
+            throw new RuntimeException("Parsing exception");
         }
-        return transactions;
-    }
-
-    /**
-     * Method converts the raw string array into Transaction object. Also upates the passed reversedTransactionIds
-     * with the Transactions that were REVERSED, so that It can be used to exclude the reversed transactions while
-     * performing balance calculations.
-     *
-     * @param trans                  - raw string array containing the values of a transaction
-     * @param reversedTransactionIds - list to maintain the reveresedTransactionIds
-     * @return
-     * @throws InvalidCSVFileException
-     */
-    public static Transaction convertToTransaction(String[] trans, List<String> reversedTransactionIds) throws InvalidCSVFileException {
-        //This IF block can be removed as the Assumption states that Input file and records are in valid format.
-        if (trans != null && trans.length > 5) {
-
-            String txId = trans[0].trim();
-            String fromAccount = trans[1].trim();
-            String toAccount = trans[2].trim();
-            LocalDateTime dateTime = convertDateTime(trans[3]);
-            Double amount = Double.parseDouble(trans[4].trim());
-            TransactionType type = TransactionType.valueOf(trans[5].trim());
-
-            Transaction transaction = new Transaction(txId, fromAccount, toAccount, dateTime, amount, type, null);
-
-            if (type.equals(TransactionType.REVERSAL) && trans[6] != null) {
-                transaction.setRelatedTransaction(trans[6].trim());
-                reversedTransactionIds.add(trans[6].trim());
-            }
-
-            return transaction;
-        }
-        throw new InvalidCSVFileException("CSV file is Invalid");
     }
 
     /**
