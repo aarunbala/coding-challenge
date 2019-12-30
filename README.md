@@ -1,19 +1,32 @@
 # Coding-challenge
-To Run
+Requirement is to calculate the relative balance for an account within the specified time frame.
+
+com.challenge.coding.BalanceCalculator - Initializes the application with the sample data & calls the service class.
+com.challenge.coding.TransactionService - Service Implementation class that provides the Business logic.
+
+To Run the application
+```bash
+mvn clean install
+```
+OR
+```bash
+mvn clean install
+java -jar target/transaction-service.jar
+```
+
+To Run tests
 ```bash
 mvn clean install
 ```
 
-Main.balanceCalculator() - runs with a single set of input parameters as described in the challenge document.
-
-TransactionServiceTest - contains tests that run with a few different sets of parameters.
-
-## Approach
-1. Load the CSV into memory (temporary solution)
-2. Identify the Reversed transaction Ids while loading the data
-3. Based on the inputs passed, filter transactions and calculate the relative balance
-
-## Assumptions
-1. If REVERSAL transactions are available for the provided timeframe, then they are considered for Balance calculation.
-2. SysOut is used temporarily instead of loggers.
-3. Test classes are created only for testing the functionality. Not created for the Util/support classes.
+Console Output
+```
+Input Account:
+ACC998877
+From date:
+20/10/2018 17:00:00
+To date:
+20/10/2018 18:00:01
+Relative Balance       : -5.0
+Number of transactions : 1
+```
